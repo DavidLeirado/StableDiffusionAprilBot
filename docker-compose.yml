@@ -1,0 +1,10 @@
+services:
+  sd_api:
+    build:
+      context: ./api
+    ports:
+      - "8060:8000"
+    container_name: sd_api
+    restart: always
+    env_file:
+      - ".env"

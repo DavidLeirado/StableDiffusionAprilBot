@@ -16,8 +16,7 @@ class Prompt(BaseModel):
 load_dotenv()
 TOKEN = os.environ.get("SD_TOKEN", "")
 
-pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=TOKEN,
-                                               torch_dtype=torch.float16, revision="fp16")
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=TOKEN)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 pipe.to(device)
 
@@ -37,6 +36,7 @@ async def sd_image_gen(prompt_content: Prompt):
     :return:
     """
     prompt = prompt_content.prompt
+    print(prompt)
     image = pipe(prompt)["sample"][0]
     buf = io.BytesIO()
     image.save(buf, format("PNG"))
